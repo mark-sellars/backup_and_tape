@@ -1,0 +1,6 @@
+label: dos
+label-id: 0x0002c63e
+device: /dev/sdc
+unit: sectors
+
+/dev/sdc1 : start=        2048, size=  1000212480, type=83

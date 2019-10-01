@@ -1,0 +1,146 @@
+*geOutline]]
+
+= __Tape !Drive/Changer on Linux__ =
+
+* For company setup please look at the bottom of this page.
+
+== __Multi Tape Autoloader__ ==
+
+Must run as root not sudo
+
+=== __Save to tape__ ===
+
+Example:
+
+* $tar -clpvf /dev/st0 -M -F /path/to/tape/change/script /path/to/folder/to/backup
+
+Example tape change script
+
+* Path: /sbin
+* Filename: chgtap
+* Code: mtx -f /dev/sg1 next
+
+Command in use:
+{{{
+$mtx -f /dev/sg3 first && tar -clpvf /dev/st0 -M -F /sbin/chgtap /var/spool/burp ; mtx -f /dev/sg3 unload ; date
+}}}
+
+
+=== __Restore from tape__===
+
+Local
+{{{
+$tar xvf /dev/st0 -M -F /sbin/chgtap -C /mnt/data/burestore
+}}}
+
+Over NFS
+{{{
+$tar xvf /dev/st0 -M -F /sbin/chgtap --no-same-owner -C /mnt/data/burestore
+}}}
+
+----------------------------------------------------------------
+
+= Manual Operations =
+
+* MT handles the Tape drive 
+* MTX operates the tape library if you are using one
+* TAR is the tape archiving program
+
+* to install {{{ $sudo yum install -y mt-st mtx }}}
+ * TAR is usually installed on Linux operating systems
+
+== __MT__ ==
+
+If different change /dev/st0 to appropriate path. Find with lsscsi -g
+
+* Status {{{$mt -f /dev/st0 status}}}
+
+* Rewind {{{$mt -f /dev/st0 rewind}}}
+
+* Eject  {{{$mt -f /dev/st0 eject}}}
+
+* Erase  {{{$mt -f /dev/st0 erase}}}
+ * should also rewind the tape and eject if possible
+
+* Retensioning  {{{$mt  -f /dev/st0 retension}}}
+
+* Write EOF in current pos of tape {{{$mt -f /dev/st0 eof}}}
+
+== __TAR__ ==
+
+Baisic backup commands with TAR
+
+* Backup Directory  {{{$tar cvf /dev/st0 /home}}}
+
+* Restore Directory {{{$tar xvf /dev/st0 -C /tmp}}}
+
+* Restore compressed  {{{$tar xvzf file.tar.gz}}}
+
+* List or check tape contents TAR {{{$tar tvf {DEVICE} {Directory-FileName} }}}                                                      
+ * {{{ $tar tvf /dev/st0 }}}                                                      
+ * {{{ $tar tvf /dev/st0 desktop }}}
+
+== __MTX__ ==
+
+For MTX use /dev/sg0 instead of /dev/st0. “sg(#)” is for media changers.
+
+SMI's is sg3
+
+The mtx command controls single or multi-drive SCSI media changers such as tape changers, autoloaders, tape libraries, or optical media jukeboxes.
+
+* Inquiry {{{ $mtx -f /dev/sg0 inquiry }}}
+
+* Status  {{{ $mtx -f /dev/sg0 status }}}
+
+* Load    {{{ $mtx -f /dev/sg0 load 3 0 }}} 
+ * load <slotnum> [ <drivenum> ]
+
+* Unload {{{ $mtx -f /dev/sg0 unload 3 0 }}}
+ *    unload <slotnum> [ <drivenum> ]              
+
+== __Useful web pages__ ==
+
+https://www.cyberciti.biz/faq/linux-tape-backup-with-mt-and-tar-command-howto/
+
+https://www.cyberciti.biz/hardware/unix-linux-basic-tape-management-commands/
+
+= Automatic Tape Backup for SMI =
+
+* Requires mail server like postfix to be setup for sending e-mail's. 
+
+== __Required Packages__ ==
+
+* mt-st
+* mtx
+* tar
+
+== __Scripts__ ==
+
+* Located in /sbin
+
+=== __Crontab__ ===
+{{{
+0 * * 3 /sbin/tapebu | mail -s "Tape Backup Finished" it_admin@spacemicro.com #Tape Backup
+}}}
+
+=== __Multi tape write script__ ===
+ * Name tapebu
+
+{{{
+#!/bin/bash
+
+/usr/sbin/mtx -f /dev/sg3 first > /dev/null 2>&1
+/usr/bin/tar -clpvf /dev/st0 -M -F /sbin/chgtap /var/spool/burp > /dev/null 2>&1
+/usr/sbin/mtx -f /dev/sg3 unload
+/usr/bin/echo Tape backup finished on `date`. Please change the tapes.
+}}}
+
+=== __Change tape script__ ===
+
+* Script called by the Multi tape write script to change the tape when it is full
+ * Name chgtap
+
+{{{
+/usr/sbin/mtx -f /dev/sg3 next
+}}} Server config is located at /etc/burp/burp-server.conf
+

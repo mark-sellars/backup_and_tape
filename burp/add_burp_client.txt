@@ -1,0 +1,45 @@
+ 	Setup Burp Client On a Server
+
+GUI burp server setup:
+
+* In a web browser [http://localhost:5000/ http://localhost:5000]
+
+* After logging in Click on the “Burp settings” tab
+
+* In the main window click on “Clients”
+
+* Type the name of the new client then click on the green plus.
+
+* The client will be created, then click the blue button on the right for the client to change the settings
+
+* The Default menue should be config, Under Strings press the green plus button and select password
+
+* Use the password “backup” due to it being stored in plane text.
+
+* After click save at the bottom
+
+* Your Done, you will have to log in and out to see the new client on the main page.
+
+Client Setup Linux
+
+* $ sudo yum install -y burp-client burp-doc tmux
+
+* sudo nano /etc/burp/burp.conf
+
+Change the fallowing lines:
+
+server = 10.0.0.136
+
+password = backup
+
+cname = client name set on burpserver
+
+server_can_restore = 1
+
+* Add your directories. By default /home is set on the line “include = /home “ You can change this if you want to. To add more directories just add “include = your/path/to/files”
+
+* Test. Run “$ sudo burp -a l “ This will connect to server for the first time and generate the SSL certs. If no errors are returned the client is ready to backup
+
+*Run First backup – This will take a long time, vary highly suggest to run in TMUX so you can detach .  “$ sudo burp -a b ”
+
+While the backup runs you can watch on burps gui in live monitor.

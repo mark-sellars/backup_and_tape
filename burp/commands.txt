@@ -1,0 +1,33 @@
+== __Server side commands__ == 
+
+==== CLI status monitor ====
+
+ * ` Sudo burp -a s `
+
+* Launches the status monitor. Best ran on the server side. The status monitor is a TUI interface and can be navigated with arrow keys and the enter key.
+
+==== Start burp server manually ====
+
+ * Start burp ` sudo burp -c /etc/burp/burp-server.conf `
+ * Should not be needed use systemd! 
+
+== __Client side commands__ ==
+
+==== List Backups ====
+
+ * List backups ` sudo burp -a l `
+
+==== Restoring ==== 
+
+ * Restore All ` sudo burp -a r -b (backup number, 1 2 3 etc) `
+
+ * Restore to custom location ` sudo burp -a r -b (bu number) -d /path/to/folder `
+
+ * Restore a specific file or directory to a custom location ` sudo burp -a r -b (bu number) -r (mything) -d /path/to/folder `
+  * "mything" is a regular expression. It can be a path, or a single file/folder name if only 1 exists. 
+
+ * -f forces overwrite
+
+==== Run Backup manually ====
+
+ * Basic backup ` sudo burp -a b `

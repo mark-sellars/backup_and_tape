@@ -1,0 +1,183 @@
+==============================
+READ BACKUP FILES FROM NOTHING
+==============================
+
+Author
+======
+
+Mark R Sellars
+
+About
+=====
+
+These instructions where written using centos 7.6 and outline the bare minimum
+to restore the files from this tape set. The backup software used is BURP 
+(Backup Restore Program). Resources at the bottom.
+
+Install Centos
+==============
+
+I used server with GUI
+
+ - Partitioning
+
+  - /boot 1G  
+  - swap  4G
+  - /    What ever is left
+
+ - /var/spool/burp - is where the backup files are stored. Ensure you have
+   enough space or mount additional storage to this directory. The backup
+   servers original storage size was 20 TB.
+
+Install Software
+================
+
+ 1) For centos 7.6 install epel-release 
+
+ .. code:: bash
+
+    $ sudo yum install epel-release
+
+ 2) Install burp software
+
+ .. code:: bash
+
+    $ sudo yum install -y burp-client burp-doc burp-server
+
+    a) Optional - You can copy the included directory “clientconfdir” 
+       to "/etc/burp" this will contain all of the original servers client 
+       configs so the new server can tie all the data from /var/spool/burp as 
+       valid backups.
+
+Create a New Client
+===================
+
+ 1) Create a new client on either the burp server or another host: I will call 
+    it “restore”.
+
+ 2) So, to add a client called 'restore', you would create a file on the server
+    called /etc/burp/clientconfdir/restore . As a minimum, the file needs to 
+    contain a line like this:
+	
+	- password = abcdefgh
+
+	- Recommend using that password as it is the default.
+
+Setup client
+============
+
+ - On either the server or remote host we must configure the 
+   client file you will need to edit the client at /etc/burp/burp.conf so that 
+   the 'cname' line matches the clientconfdir file name on the server, the 
+   'password' line matches the its the clientconfdir file's contents, and the 
+   'server' line contains the address of the server. In our example's case, 
+   those three lines will look like this:
+
+	- cname = restore
+	- password = abcdefgh
+	- server= 1.2.3.4 
+
+    - “localhost” if you are setting the client up on the server 
+
+Setup Client to Read and Restore
+================================
+
+ - If you want to read all backup as just the restore client there are two ways.
+   You can simply rename each backup as “restore” one at a time and restore 
+   your data eg.
+
+ .. code:: bash
+
+    $ Sudo mv /var/spool/burp/doccontrol /var/spool/burp/restore
+
+  - Or edit the burp-server config located at /etc/burp/burp-server.conf
+    Uncomment and edit this line at the bottom:  
+
+	#restore_client = someclient
+	
+    - Change to 
+	
+	restore_client = restore
+
+Setup Firewall
+==============
+
+ - Allow ports in firewall and start the burp server
+
+   - Add ports 4971 and 5971 tcp to the firewall  
+
+Start Server and Test
+=====================
+
+ 1) Start the burp server
+
+ .. code :: bash
+
+    $ sudo burp -c /etc/burp/burp-server.conf
+
+ 2) Test connection from client, either remote or local by running
+
+ .. code:: bash
+	
+    $ sudo burp -a l
+
+ - The first time this is ran it will automatically generate the SSL keys 
+   and add the client. 
+
+Check and List Available Backups
+================================
+
+ - To list backup
+
+ .. code:: bash
+
+    $ sudo burp -a l
+
+ - If you changed the “restore_client” line in the burp server config and you 
+   are using said client you should be able to list and restore backups of any
+   client.
+
+ - To list backup of another client
+	
+ .. code:: bash
+
+    $ sudo burp -C otherclient -a l
+
+ - To performe any action as another client add -C otherclient 
+
+ .. code:: bash 
+
+    $ sudo burp -C doccontrol -a l
+
+Restoring
+=========
+
+ - Some examples of restoring files from a client of choice
+
+ -Restore a file from a selected backup to a folder of choice
+
+ .. code:: bash
+
+    $ Sudo burp -C doccontrol -a r -b 69 -r Doc_number_log_12-6-18-303.xlsx -d /tmp/restore
+
+ - Restore select backup to a custom location
+
+ .. code:: bash
+
+   $ Sudo burp -C doccontrol -a r -b 69 /tmp/restore
+
+ - Restore selected backup to original location
+	
+ .. code:: bash
+
+    $ Sudo burp -C doccontrol -a r -b 69
+
+See Also
+========
+
+ Burp Web Site <https://burp.grke.org/>
+
+ Burp Github <https://github.com/grke/burp>
+
+ - Copied git-clone of burp which includes all OEM documentation located in 
+   /emergency_restore_kit/burp-git-clone

@@ -1,0 +1,9 @@
+Model: ATA Samsung SSD 860 (scsi)
+Disk /dev/sdc: 512GB
+Sector size (logical/physical): 512B/512B
+Partition Table: msdos
+Disk Flags: 
+
+Number  Start   End    Size   Type     File system  Flags
+ 1      1049kB  512GB  512GB  primary  xfs
+

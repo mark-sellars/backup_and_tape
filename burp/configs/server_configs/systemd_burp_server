@@ -1,0 +1,15 @@
+{{{
+[Unit]
+Description=Burp
+Documentation=man:burp(8)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=forking
+ExecStart=/usr/sbin/burp -c /etc/burp/burp-server.conf
+
+
+[Install]
+WantedBy=multi-user.target
+}}}

@@ -1,0 +1,56 @@
+===================================
+Restoring backup server image or VM
+===================================
+
+Author
+======
+
+Mark R Sellars
+
+About
+=====
+
+This is a quick guide on restoring the backup server image or VM.
+
+Restoring Backup Server KVM Virtual Machine
+===========================================
+
+ - Location /images_vms/kvm/burp.qcow2
+
+I have converted the running servers image to a KVM vm. QEMU is the 
+virtulization used. It is vary important to set the .qcow2 to a SATA channel
+because the VM was made from an image of the physical production server.
+
+This VM does not require editing the fstab file. This VM is ready to use as is.
+
+ - The mount point for the data on these tapes should be /var/spool/burp
+
+Restoring Backup Server Clonezilla Image
+========================================
+
+ - Location /images_vms/clonezilla/burp-img 
+
+If restoring the backup server image to a new server you will need to edit the  
+fstab file in the os. The image also requires hard drives or partitions         
+due to /var being mounted to a seperate partition during imaging. The data in   
+this tape set was mounted at /var/spool/burp and the original size of the       
+raid was 20TB.
+
+Partitioning of the original server
+==================================
+
+| NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+| sda      8:0    0  21.8T  0 disk 
+| └─sda1   8:1    0  21.8T  0 part /var/spool/burp
+| sdb      8:16   0 238.5G  0 disk 
+| ├─sdb1   8:17   0     1G  0 part /boot
+| ├─sdb2   8:18   0 233.5G  0 part /
+| └─sdb3   8:19   0     4G  0 part [SWAP]
+| sdc      8:32   0   477G  0 disk 
+| └─sdc1   8:33   0   477G  0 part /var
+|
+| /dev/sdc1: UUID="53540980-50be-4537-9b24-7fbd888b7654" TYPE="xfs" 
+| /dev/sda1: LABEL="burp" UUID="7a63e1e9-7f8e-4f07-bf7e-0a4e8cb0bfea" TYPE="xfs" PARTUUID="a377022d-f2a8-45f3-bcf7-e24278333e39" 
+| /dev/sdb1: UUID="6b775258-a38d-40e7-8784-513b55146be2" TYPE="xfs" 
+| /dev/sdb2: UUID="606862dd-2620-48f1-aec8-bededef39e07" TYPE="xfs" 
+| /dev/sdb3: UUID="e4ebc05e-c655-4e05-854d-cc887978bc51" TYPE="swap"

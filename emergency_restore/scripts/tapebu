@@ -1,0 +1,7 @@
+#!/bin/bash
+
+/usr/sbin/mtx -f /dev/sg3 first > /dev/null 2>&1
+/usr/bin/tar -clpvf /dev/st0 -M -F /sbin/chgtap /var/spool/burp > /dev/null 2>&1
+/usr/sbin/mtx -f /dev/sg3 unload
+/usr/bin/echo Tape backup finished on `date`. Please change the tapes.
+

@@ -1,0 +1,89 @@
+ Config for SMI =
+
+== __burpui config with commented lines removed__ ==
+{{{
+
+[Global]
+
+version = 2
+
+single = true
+
+auth = basic
+
+acl = none
+
+prefix = none
+
+plugins = none
+
+[UI]
+
+refresh = 180
+
+liverefresh = 5
+
+ignore_labels = color:.*, custom:.*
+
+format_labels = s/^os:\s*//
+
+default_strip = 0
+
+[Production]
+
+storage = default
+
+session = default
+
+cache = default
+
+redis = localhost:6379
+
+celery = false
+
+database = none
+
+limiter = false
+
+ratio = 60/minute
+
+[WebSocket]
+
+enabled = true
+
+embedded = false
+
+broker = redis
+
+url = none
+
+debug = false
+
+[Security]
+
+includes = /etc/burp
+
+enforce = false
+
+revoke = true
+
+cookietime = 14
+
+sessiontime = 5
+
+scookie = true
+
+appsecret = test
+
+[Experimental]
+
+zip64 = false
+
+noserverrestore = false
+
+
+[Burp]
+
+[BASIC]
+admin = pbkdf2:sha256:50000$7p4R7DIm$ca3a25faa7a8e682174a7d4f92515b29f18a36e0a612e8cd2380c70ce651ef08
+}}}

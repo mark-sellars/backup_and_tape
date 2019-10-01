@@ -1,0 +1,166 @@
+This image was saved by Clonezilla at 2018-12-21 17:14:58 UTC.
+The log during saving:
+----------------------------------------------------------
+Starting /usr/sbin/ocs-sr at 2018-12-21 17:11:25 UTC...
+*****************************************************.
+Clonezilla image dir: /home/partimag
+Shutting down the Logical Volume Manager
+Finished Shutting down the Logical Volume Manager
+The selected devices: sdb sdc
+PS. Next time you can run this command directly:
+/usr/sbin/ocs-sr -q2 -c -j2 -z1p -i 4096 -sfsck -scs -senc -p reboot savedisk backupsrv-dec21-18-img sdb sdc
+*****************************************************.
+The selected devices: sdb sdc
+Searching for data/swap/extended partition(s)...
+Searching for data/swap/extended partition(s)...
+The data partition to be saved: sdb1 sdb2 sdc1
+The swap partition to be saved: sdb3
+The selected devices: sdb1 sdb2 sdc1
+The following step is to save the hard disk/partition(s) on this machine as an image:
+*****************************************************.
+Machine: Super Server
+sdb (256GB_Samsung_SSD_850__Samsung_SSD_850_PRO_256GB_S251NX0H413841D)
+sdc (512GB_Samsung_SSD_860__Samsung_SSD_860_PRO_512GB_S419NGAK302437R)
+sdb1 (1G_xfs(In_Samsung_SSD_850_)_Samsung_SSD_850_PRO_256GB_S251NX0H413841D)
+sdb2 (233.5G_xfs(In_Samsung_SSD_850_)_Samsung_SSD_850_PRO_256GB_S251NX0H413841D)
+sdc1 (477G_xfs(In_Samsung_SSD_860_)_Samsung_SSD_860_PRO_512GB_S419NGAK302437R)
+*****************************************************.
+-> "/home/partimag/backupsrv-dec21-18-img".
+Shutting down the Logical Volume Manager
+Finished Shutting down the Logical Volume Manager
+Saving block devices info in /home/partimag/backupsrv-dec21-18-img/blkdev.list...
+Saving block devices attributes in /home/partimag/backupsrv-dec21-18-img/blkid.list...
+Checking the integrity of partition table in the disk /dev/sdb... 
+Reading the partition table for /dev/sdb...RETVAL=0
+*****************************************************.
+The first partition of disk /dev/sdb starts at 2048.
+Saving the hidden data between MBR (1st sector, i.e. 512 bytes) and 1st partition, which might be useful for some recovery tool, by:
+dd if=/dev/sdb of=/home/partimag/backupsrv-dec21-18-img/sdb-hidden-data-after-mbr skip=1 bs=512 count=2047
+2047+0 records in
+2047+0 records out
+1048064 bytes (1.0 MB, 1.0 MiB) copied, 0.0580043 s, 18.1 MB/s
+*****************************************************.
+Checking the integrity of partition table in the disk /dev/sdc... 
+Reading the partition table for /dev/sdc...RETVAL=0
+*****************************************************.
+The first partition of disk /dev/sdc starts at 2048.
+Saving the hidden data between MBR (1st sector, i.e. 512 bytes) and 1st partition, which might be useful for some recovery tool, by:
+dd if=/dev/sdc of=/home/partimag/backupsrv-dec21-18-img/sdc-hidden-data-after-mbr skip=1 bs=512 count=2047
+2047+0 records in
+2047+0 records out
+1048064 bytes (1.0 MB, 1.0 MiB) copied, 0.0527226 s, 19.9 MB/s
+*****************************************************.
+Saving the MBR data for sdb...
+1+0 records in
+1+0 records out
+512 bytes copied, 0.00293193 s, 175 kB/s
+Saving the MBR data for sdc...
+1+0 records in
+1+0 records out
+512 bytes copied, 0.0029416 s, 174 kB/s
+Starting saving /dev/sdb1 as /home/partimag/backupsrv-dec21-18-img/sdb1.XXX...
+/dev/sdb1 filesystem: xfs.
+*****************************************************.
+*****************************************************.
+Use partclone with pigz to save the image.
+Image file will be split with size limit 4096 MB.
+*****************************************************.
+If this action fails or hangs, check:
+* Is the disk full ?
+*****************************************************.
+Run partclone: partclone.xfs -z 10485760 -N -L /var/log/partclone.log -c -s /dev/sdb1 --output - | pigz -c --fast -b 1024 -p 16 --rsyncable | split -a 2 -b 4096MB - /home/partimag/backupsrv-dec21-18-img/sdb1.xfs-ptcl-img.gz. 2> /tmp/split_error.GB10zS
+Partclone v0.2.89 http://partclone.org
+Starting to clone device (/dev/sdb1) to image (-)
+Reading Super Block
+xfsclone.c: Open /dev/sdb1 successfullyxfsclone.c: fs_close
+we need memory: 41028 bytes
+image head 4160, bitmap 32768, crc 4100 bytes
+Calculating bitmap... Please wait... xfsclone.c: Open /dev/sdb1 successfullyxfsclone.c: bused = 56427, bfree = 205717
+xfsclone.c: fs_close
+done!
+File system:  XFS
+Device size:    1.1 GB = 262144 Blocks
+Space in use: 231.1 MB = 56427 Blocks
+Free Space:   842.6 MB = 205717 Blocks
+Block size:   4096 Byte
+Total block 262144
+Syncing... OK!
+Partclone successfully cloned the device (/dev/sdb1) to the image (-)
+>>> Time elapsed: 9.39 secs (~ .156 mins)
+*****************************************************.
+Finished saving /dev/sdb1 as /home/partimag/backupsrv-dec21-18-img/sdb1.xfs-ptcl-img.gz
+*****************************************************.
+Starting saving /dev/sdb2 as /home/partimag/backupsrv-dec21-18-img/sdb2.XXX...
+/dev/sdb2 filesystem: xfs.
+*****************************************************.
+*****************************************************.
+Use partclone with pigz to save the image.
+Image file will be split with size limit 4096 MB.
+*****************************************************.
+If this action fails or hangs, check:
+* Is the disk full ?
+*****************************************************.
+Run partclone: partclone.xfs -z 10485760 -N -L /var/log/partclone.log -c -s /dev/sdb2 --output - | pigz -c --fast -b 1024 -p 16 --rsyncable | split -a 2 -b 4096MB - /home/partimag/backupsrv-dec21-18-img/sdb2.xfs-ptcl-img.gz. 2> /tmp/split_error.2C7dwo
+Partclone v0.2.89 http://partclone.org
+Starting to clone device (/dev/sdb2) to image (-)
+Reading Super Block
+xfsclone.c: Open /dev/sdb2 successfullyxfsclone.c: fs_close
+we need memory: 7658724 bytes
+image head 4160, bitmap 7650464, crc 4100 bytes
+Calculating bitmap... Please wait... xfsclone.c: Open /dev/sdb2 successfullyxfsclone.c: bused = 1164378, bfree = 60039334
+xfsclone.c: fs_close
+done!
+File system:  XFS
+Device size:  250.7 GB = 61203712 Blocks
+Space in use:   4.8 GB = 1164378 Blocks
+Free Space:   245.9 GB = 60039334 Blocks
+Block size:   4096 Byte
+Total block 61203712
+Syncing... OK!
+Partclone successfully cloned the device (/dev/sdb2) to the image (-)
+>>> Time elapsed: 40.35 secs (~ .672 mins)
+*****************************************************.
+Finished saving /dev/sdb2 as /home/partimag/backupsrv-dec21-18-img/sdb2.xfs-ptcl-img.gz
+*****************************************************.
+Starting saving /dev/sdc1 as /home/partimag/backupsrv-dec21-18-img/sdc1.XXX...
+/dev/sdc1 filesystem: xfs.
+*****************************************************.
+*****************************************************.
+Use partclone with pigz to save the image.
+Image file will be split with size limit 4096 MB.
+*****************************************************.
+If this action fails or hangs, check:
+* Is the disk full ?
+*****************************************************.
+Run partclone: partclone.xfs -z 10485760 -N -L /var/log/partclone.log -c -s /dev/sdc1 --output - | pigz -c --fast -b 1024 -p 16 --rsyncable | split -a 2 -b 4096MB - /home/partimag/backupsrv-dec21-18-img/sdc1.xfs-ptcl-img.gz. 2> /tmp/split_error.y8kiDp
+Partclone v0.2.89 http://partclone.org
+Starting to clone device (/dev/sdc1) to image (-)
+Reading Super Block
+xfsclone.c: Open /dev/sdc1 successfullyxfsclone.c: fs_close
+we need memory: 15636580 bytes
+image head 4160, bitmap 15628320, crc 4100 bytes
+Calculating bitmap... Please wait... xfsclone.c: Open /dev/sdc1 successfullyxfsclone.c: bused = 1093104, bfree = 123933456
+xfsclone.c: fs_close
+done!
+File system:  XFS
+Device size:  512.1 GB = 125026560 Blocks
+Space in use:   4.5 GB = 1093104 Blocks
+Free Space:   507.6 GB = 123933456 Blocks
+Block size:   4096 Byte
+Total block 125026560
+Syncing... OK!
+Partclone successfully cloned the device (/dev/sdc1) to the image (-)
+>>> Time elapsed: 40.89 secs (~ .681 mins)
+*****************************************************.
+Finished saving /dev/sdc1 as /home/partimag/backupsrv-dec21-18-img/sdc1.xfs-ptcl-img.gz
+*****************************************************.
+End of saveparts job for image /home/partimag/backupsrv-dec21-18-img.
+*****************************************************.
+Saving swap partition sdb3 info in /home/partimag/backupsrv-dec21-18-img/swappt-sdb3.info if it exists...
+*****************************************************.
+End of savedisk job for image backupsrv-dec21-18-img.
+Checking if udevd rules have to be restored...
+This program is not started by Clonezilla server, so skip notifying it the job is done.
+Finished!
+### End of log ###
+### Image created time: 2018-1221-1714

@@ -1,0 +1,1 @@
+/usr/sbin/ocs-sr -q2 -c -j2 -z1p -i 4096 -sfsck -scs -senc -p reboot savedisk backupsrv-dec21-18-img sdb sdc

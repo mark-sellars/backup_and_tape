@@ -1,0 +1,1 @@
+/usr/sbin/mtx -f /dev/sg3 next

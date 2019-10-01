@@ -1,0 +1,6 @@
+# <Device name>   <File system>
+# File system is got from ocs-get-part-info. It might be different from that of blkid or parted.
+/dev/sdb1 xfs
+/dev/sdb2 xfs
+/dev/sdc1 xfs
+/dev/sdb3 swap

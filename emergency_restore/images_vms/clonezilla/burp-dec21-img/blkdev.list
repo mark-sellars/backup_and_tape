@@ -1,0 +1,11 @@
+KNAME     NAME        SIZE TYPE FSTYPE   MOUNTPOINT                                 MODEL
+sdb       sdb       238.5G disk                                                     Samsung SSD 850 
+sdb2      |-sdb2    233.5G part xfs                                                 
+sdb3      |-sdb3        4G part swap                                                
+sdb1      `-sdb1        1G part xfs                                                 
+mtdblock0 mtdblock0   258M disk          /lib/live/mount/medium                     
+loop0     loop0     207.6M loop squashfs /lib/live/mount/rootfs/filesystem.squashfs 
+sdc       sdc         477G disk                                                     Samsung SSD 860 
+sdc1      `-sdc1      477G part xfs                                                 
+sda       sda        21.8T disk                                                     ARC-1883-VOL#000
+sda1      `-sda1     21.8T part xfs                                                 

@@ -1,0 +1,7 @@
+/dev/loop0: TYPE="squashfs"
+/dev/mtdblock0: UUID="2016-11-22-00-05-05-00" LABEL="20161121-yakkety-amd64" TYPE="iso9660" PTUUID="4706496b" PTTYPE="dos"
+/dev/sda1: LABEL="burp" UUID="7a63e1e9-7f8e-4f07-bf7e-0a4e8cb0bfea" TYPE="xfs" PARTUUID="a377022d-f2a8-45f3-bcf7-e24278333e39"
+/dev/sdb1: UUID="6b775258-a38d-40e7-8784-513b55146be2" TYPE="xfs" PARTUUID="000a8d07-01"
+/dev/sdb2: UUID="606862dd-2620-48f1-aec8-bededef39e07" TYPE="xfs" PARTUUID="000a8d07-02"
+/dev/sdb3: UUID="e4ebc05e-c655-4e05-854d-cc887978bc51" TYPE="swap" PARTUUID="000a8d07-03"
+/dev/sdc1: UUID="53540980-50be-4537-9b24-7fbd888b7654" TYPE="xfs" PARTUUID="0002c63e-01"

@@ -1,0 +1,11 @@
+Model: ATA Samsung SSD 850 (scsi)
+Disk /dev/sdb: 500118192s
+Sector size (logical/physical): 512B/512B
+Partition Table: msdos
+Disk Flags: 
+
+Number  Start       End         Size        Type     File system     Flags
+ 1      2048s       2099199s    2097152s    primary  xfs             boot
+ 2      2099200s    491728895s  489629696s  primary  xfs
+ 3      491728896s  500117503s  8388608s    primary  linux-swap(v1)
+
